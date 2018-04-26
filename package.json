@@ -8,6 +8,7 @@
     "gen-schema-types": "gql2ts src/schema.graphql -o src/types/schema.d.ts"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "graphql-import": "^0.5.2",
     "graphql-yoga": "^1.12.1",
     "pg": "^7.4.1",
@@ -16,6 +17,7 @@
     "uuid": "^3.2.1"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.1",
     "@types/node": "^10.0.0",
     "@types/uuid": "^3.4.3",
     "gql2ts": "^1.7.2",
