@@ -1,0 +1,11 @@
+{
+  "name": "graphql-ts-server-boilerplate",
+  "version": "1.0.0",
+  "description": "GraphQL TypeScript Server Boilerplate",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Terry Tilley <terry@terrytilley.com>",
+  "license": "ISC"
+}
