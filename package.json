@@ -4,16 +4,21 @@
   "description": "GraphQL TypeScript Server Boilerplate",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec ts-node src/index.ts"
+    "start": "nodemon --exec ts-node src/index.ts",
+    "gen-schema-types": "gql2ts src/schema.graphql -o src/types/schema.d.ts"
   },
   "dependencies": {
+    "graphql-import": "^0.5.2",
     "graphql-yoga": "^1.12.1",
     "pg": "^7.4.1",
     "reflect-metadata": "^0.1.12",
-    "typeorm": "0.2.3"
+    "typeorm": "0.2.3",
+    "uuid": "^3.2.1"
   },
   "devDependencies": {
     "@types/node": "^10.0.0",
+    "@types/uuid": "^3.4.3",
+    "gql2ts": "^1.7.2",
     "nodemon": "^1.17.3",
     "ts-node": "6.0.1",
     "tslint": "^5.9.1",
