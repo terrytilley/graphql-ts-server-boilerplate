@@ -5,11 +5,13 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --exec ts-node src/index.ts",
+    "test": "jest",
     "gen-schema-types": "gql2ts src/schema.graphql -o src/types/schema.d.ts"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "graphql-import": "^0.5.2",
+    "graphql-request": "^1.5.2",
     "graphql-yoga": "^1.12.1",
     "pg": "^7.4.1",
     "reflect-metadata": "^0.1.12",
@@ -18,14 +20,31 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.1",
+    "@types/jest": "^22.2.3",
     "@types/node": "^10.0.0",
     "@types/uuid": "^3.4.3",
     "gql2ts": "^1.7.2",
+    "jest": "^22.4.3",
     "nodemon": "^1.17.3",
+    "ts-jest": "^22.4.4",
     "ts-node": "6.0.1",
     "tslint": "^5.9.1",
     "tslint-config-prettier": "^1.12.0",
     "typescript": "2.8.3"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
   },
   "author": "Terry Tilley <terry@terrytilley.com>",
   "license": "ISC"
