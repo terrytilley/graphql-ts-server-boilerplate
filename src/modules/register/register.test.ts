@@ -1,6 +1,6 @@
+import { User } from '../../entity/User';
 import { request } from 'graphql-request';
-import { User } from '../entity/User';
-import { startServer } from '../startServer';
+import { startServer } from '../../startServer';
 
 let getHost = () => '';
 
