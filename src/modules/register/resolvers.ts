@@ -3,6 +3,7 @@ import * as bcrypt from 'bcryptjs';
 import { User } from '../../entity/User';
 import { ResolverMap } from '../../types/graphql-utils';
 import { formatYupError } from '../../utils/formatYupError';
+import { createConfirmEmailLink } from '../../utils/createConfirmEmailLink';
 import {
   duplicateEmail,
   emailMinLength,
@@ -27,7 +28,7 @@ export const resolvers: ResolverMap = {
     bye: () => 'bye',
   },
   Mutation: {
-    register: async (_, args: GQL.IRegisterOnMutationArguments) => {
+    register: async (_, args: GQL.IRegisterOnMutationArguments, { redis, url }) => {
       try {
         await schema.validate(args, { abortEarly: false });
       } catch (err) {
@@ -56,6 +57,9 @@ export const resolvers: ResolverMap = {
       });
 
       await user.save();
+
+      const link = await createConfirmEmailLink(url, user.id, redis);
+
       return null;
     },
   },

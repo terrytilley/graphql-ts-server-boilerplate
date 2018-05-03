@@ -1,11 +1,13 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import * as Redis from 'ioredis';
 import { GraphQLSchema } from 'graphql';
 import { GraphQLServer } from 'graphql-yoga';
 import { importSchema } from 'graphql-import';
 import { mergeSchemas, makeExecutableSchema } from 'graphql-tools';
 
 import { createTypeOrmConn } from './utils/createTypeOrmConn';
+import { User } from './entity/User';
 
 export const startServer = async () => {
   const schemas: GraphQLSchema[] = [];
@@ -19,7 +21,26 @@ export const startServer = async () => {
     schemas.push(makeExecutableSchema({ resolvers, typeDefs }));
   });
 
-  const server = new GraphQLServer({ schema: mergeSchemas({ schemas }) });
+  const redis = new Redis();
+  const server = new GraphQLServer({
+    schema: mergeSchemas({ schemas }),
+    context: ({ request }) => ({
+      redis,
+      url: `${request.protocol}://${request.get('host')}`,
+    }),
+  });
+
+  server.express.get('/confirm/:id', async (req, res) => {
+    const { id } = req.params;
+    const userId = await redis.get(id);
+
+    if (userId) {
+      await User.update({ id: userId }, { confirmed: true });
+      res.send('ok');
+    } else {
+      res.send('invalid');
+    }
+  });
 
   await createTypeOrmConn();
 
