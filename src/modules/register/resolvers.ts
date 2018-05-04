@@ -5,9 +5,9 @@ import { ResolverMap } from '../../types/graphql-utils';
 import { formatYupError } from '../../utils/formatYupError';
 import { createConfirmEmailLink } from '../../utils/createConfirmEmailLink';
 import {
+  invalidEmail,
   duplicateEmail,
   emailMinLength,
-  invalidEmail,
   passwordMinLength,
 } from './errorMessages';
 
@@ -58,7 +58,7 @@ export const resolvers: ResolverMap = {
 
       await user.save();
 
-      const link = await createConfirmEmailLink(url, user.id, redis);
+      await createConfirmEmailLink(url, user.id, redis);
 
       return null;
     },

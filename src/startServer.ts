@@ -1,13 +1,12 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as Redis from 'ioredis';
+import { User } from './entity/User';
 import { GraphQLSchema } from 'graphql';
 import { GraphQLServer } from 'graphql-yoga';
 import { importSchema } from 'graphql-import';
 import { mergeSchemas, makeExecutableSchema } from 'graphql-tools';
-
-import { createTypeOrmConn } from './utils/createTypeOrmConn';
-import { User } from './entity/User';
+import { createTypeOrmConn } from './utils/createTypeormConn';
 
 export const startServer = async () => {
   const schemas: GraphQLSchema[] = [];
@@ -26,7 +25,7 @@ export const startServer = async () => {
     schema: mergeSchemas({ schemas }),
     context: ({ request }) => ({
       redis,
-      url: `${request.protocol}://${request.get('host')}`,
+      url: request.protocol + '://' + request.get('host'),
     }),
   });
 
@@ -43,11 +42,10 @@ export const startServer = async () => {
   });
 
   await createTypeOrmConn();
-
   const app = await server.start({
     port: process.env.NODE_ENV === 'test' ? 0 : 4000,
   });
-
   console.log('Server is running on localhost:4000');
+
   return app;
 };
