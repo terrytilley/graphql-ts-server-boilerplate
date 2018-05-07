@@ -1,5 +1,6 @@
-import * as Redis from 'ioredis';
 import fetch from 'node-fetch';
+import * as Redis from 'ioredis';
+import { Connection } from 'typeorm';
 
 import { User } from '../entity/User';
 import { createTypeOrmConn } from './createTypeormConn';
@@ -7,9 +8,10 @@ import { createConfirmEmailLink } from './createConfirmEmailLink';
 
 let userId = '';
 const redis = new Redis();
+let conn: Connection;
 
 beforeAll(async () => {
-  await createTypeOrmConn();
+  conn = await createTypeOrmConn();
 
   const user = User.create({
     email: 'john@doe.com',
@@ -18,6 +20,10 @@ beforeAll(async () => {
 
   await user.save();
   userId = user.id;
+});
+
+afterAll(async () => {
+  conn.close();
 });
 
 describe('createConfirmEmailLink', () => {
@@ -39,11 +45,5 @@ describe('createConfirmEmailLink', () => {
     const key = chunks[chunks.length - 1];
     const value = await redis.get(key);
     expect(value).toBeNull();
-  });
-
-  test('sends invalid back if bad id sent', async () => {
-    const response = await fetch(`${process.env.TEST_HOST}/confirm/12345`);
-    const text = await response.text();
-    expect(text).toEqual('invalid');
   });
 });
