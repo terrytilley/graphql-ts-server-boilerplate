@@ -1,6 +1,9 @@
+import { v4 } from 'uuid';
 import * as yup from 'yup';
 import * as bcrypt from 'bcryptjs';
+
 import { User } from '../../entity/User';
+import { sendEmail } from '../../utils/sendEmail';
 import { ResolverMap } from '../../types/graphql-utils';
 import { formatYupError } from '../../utils/formatYupError';
 import { createConfirmEmailLink } from '../../utils/createConfirmEmailLink';
@@ -52,13 +55,16 @@ export const resolvers: ResolverMap = {
 
       const hashedPassword = await bcrypt.hash(password, 10);
       const user = User.create({
+        id: v4(),
         email,
         password: hashedPassword,
       });
 
       await user.save();
 
-      await createConfirmEmailLink(url, user.id, redis);
+      if (process.env.NODE_ENV !== 'test') {
+        await sendEmail(email, await createConfirmEmailLink(url, user.id, redis));
+      }
 
       return null;
     },
