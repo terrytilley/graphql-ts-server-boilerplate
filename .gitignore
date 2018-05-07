@@ -94,3 +94,6 @@ typings/
 
 # next.js build output
 .next
+
+# Ignore redis binary dump (dump.rdb) files
+*.rdb
