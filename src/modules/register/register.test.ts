@@ -12,12 +12,12 @@ const email = 'tester@test.com';
 const password = 'qwerty123';
 
 const mutation = (e: string, p: string) => `
-mutation {
-  register(email: "${e}", password: "${p}") {
-    path
-    message
+  mutation {
+    register(email: "${e}", password: "${p}") {
+      path
+      message
+    }
   }
-}
 `;
 
 beforeAll(async () => {
