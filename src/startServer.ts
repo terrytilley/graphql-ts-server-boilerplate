@@ -1,3 +1,5 @@
+import 'dotenv/config';
+import 'reflect-metadata';
 import * as session from 'express-session';
 import * as connectRedis from 'connect-redis';
 import { GraphQLServer } from 'graphql-yoga';
