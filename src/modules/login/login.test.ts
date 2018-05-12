@@ -1,9 +1,11 @@
+import { Connection } from 'typeorm';
 import { request } from 'graphql-request';
 
 import { User } from '../../entity/User';
 import { invalidLogin, confirmEmail } from './errorMessages';
 import { createTypeOrmConn } from '../../utils/createTypeormConn';
 
+let conn: Connection;
 const email = 'tester@test.com';
 const password = 'qwerty123';
 
@@ -39,7 +41,11 @@ const loginExpectError = async (e: string, p: string, errMsg: string) => {
 };
 
 beforeAll(async () => {
-  await createTypeOrmConn();
+  conn = await createTypeOrmConn();
+});
+
+afterAll(async () => {
+  conn.close();
 });
 
 describe('Login user', async () => {

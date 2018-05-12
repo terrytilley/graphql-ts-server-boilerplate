@@ -1,3 +1,5 @@
+import { Connection } from 'typeorm';
+
 import { User } from '../../entity/User';
 import { request } from 'graphql-request';
 import {
@@ -8,6 +10,7 @@ import {
 } from './errorMessages';
 import { createTypeOrmConn } from '../../utils/createTypeOrmConn';
 
+let conn: Connection;
 const email = 'tester@test.com';
 const password = 'qwerty123';
 
@@ -21,7 +24,11 @@ const mutation = (e: string, p: string) => `
 `;
 
 beforeAll(async () => {
-  await createTypeOrmConn();
+  conn = await createTypeOrmConn();
+});
+
+afterAll(async () => {
+  conn.close();
 });
 
 describe('Register user', async () => {
