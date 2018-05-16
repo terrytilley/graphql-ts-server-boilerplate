@@ -6,6 +6,7 @@ import { GraphQLServer } from 'graphql-yoga';
 
 import { redis } from './redis';
 import { genSchema } from './utils/genSchema';
+import { redisSessionPrefix } from './constants';
 import { confirmEmail } from './routes/confirmEmail';
 import { createTypeOrmConn } from './utils/createTypeormConn';
 
@@ -19,13 +20,14 @@ export const startServer = async () => {
       redis,
       url: request.protocol + '://' + request.get('host'),
       session: request.session,
+      req: request,
     }),
   });
 
   server.express.use(
     session({
       name: 'qid',
-      store: new RedisStore({ client: redis as any }),
+      store: new RedisStore({ client: redis as any, prefix: redisSessionPrefix }),
       secret: SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
