@@ -4,13 +4,9 @@ import { User } from '../../entity/User';
 // import { sendEmail } from '../../utils/sendEmail';
 import { ResolverMap } from '../../types/graphql-utils';
 import { formatYupError } from '../../utils/formatYupError';
+import { registerPasswordValidation } from '../../yupSchema';
 // import { createConfirmEmailLink } from '../../utils/createConfirmEmailLink';
-import {
-  invalidEmail,
-  duplicateEmail,
-  emailMinLength,
-  passwordMinLength,
-} from './errorMessages';
+import { invalidEmail, duplicateEmail, emailMinLength } from './errorMessages';
 
 const schema = yup.object().shape({
   email: yup
@@ -18,10 +14,7 @@ const schema = yup.object().shape({
     .min(3, emailMinLength)
     .max(255)
     .email(invalidEmail),
-  password: yup
-    .string()
-    .min(3, passwordMinLength)
-    .max(255),
+  password: registerPasswordValidation,
 });
 
 export const resolvers: ResolverMap = {
