@@ -5,7 +5,7 @@ import { User } from '../../entity/User';
 import { ResolverMap } from '../../types/graphql-utils';
 import { formatYupError } from '../../utils/formatYupError';
 import { registerPasswordValidation } from '../../yupSchema';
-// import { createConfirmEmailLink } from '../../utils/createConfirmEmailLink';
+// import { createConfirmEmailLink } from '../../modules/register/createConfirmEmailLink';
 import { invalidEmail, duplicateEmail, emailMinLength } from './errorMessages';
 
 const schema = yup.object().shape({

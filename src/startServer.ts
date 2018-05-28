@@ -1,24 +1,26 @@
 import 'dotenv/config';
 import 'reflect-metadata';
-import * as passport from 'passport';
 import * as session from 'express-session';
 import * as connectRedis from 'connect-redis';
 import * as RateLimit from 'express-rate-limit';
 import * as RateLimitRedisStore from 'rate-limit-redis';
-import { Strategy } from 'passport-twitter';
 import { GraphQLServer } from 'graphql-yoga';
 
 import { redis } from './redis';
-import { User } from './entity/User';
 import { genSchema } from './utils/genSchema';
 import { redisSessionPrefix } from './constants';
 import { confirmEmail } from './routes/confirmEmail';
+import { createTestConn } from './testUtils/createTestConn';
 import { createTypeOrmConn } from './utils/createTypeormConn';
 
 const RedisStore = connectRedis(session);
 const SESSION_SECRET = 'd3c3f2fc5b1fb7caaae5c1f9540025982bc7202be927aab11551840d2e6';
 
 export const startServer = async () => {
+  if (process.env.NODE_ENV === 'test') {
+    await redis.flushall();
+  }
+
   const server = new GraphQLServer({
     schema: genSchema(),
     context: ({ request }) => ({
@@ -60,62 +62,11 @@ export const startServer = async () => {
 
   server.express.get('/confirm/:id', confirmEmail);
 
-  const connection = await createTypeOrmConn();
-
-  passport.use(
-    new Strategy(
-      {
-        consumerKey: process.env.TWITTER_CONSUMER_KEY as string,
-        consumerSecret: process.env.TWITTER_CONSUMER_SECRET as string,
-        callbackURL: 'http://localhost:4000/auth/twitter/callback',
-        includeEmail: true,
-      },
-      async (_, __, profile, cb) => {
-        let email: string | null = null;
-        const { id, emails } = profile;
-
-        const query = connection
-          .getRepository(User)
-          .createQueryBuilder('user')
-          .where('user.twitterId = :id', { id });
-
-        if (emails) {
-          email = emails[0].value;
-          query.orWhere('user.email = :email', { email });
-        }
-
-        let user = await query.getOne();
-
-        if (!user) {
-          // User needs to be created
-          user = await User.create({
-            twitterId: id,
-            email,
-          }).save();
-        } else if (!user.twitterId) {
-          // Found user by email
-          user.twitterId = id;
-          await user.save();
-        }
-
-        return cb(null, { id: user.id });
-      }
-    )
-  );
-
-  server.express.use(passport.initialize());
-
-  server.express.get('/auth/twitter', passport.authenticate('twitter'));
-
-  server.express.get(
-    '/auth/twitter/callback',
-    passport.authenticate('twitter', { session: false }),
-    (req, res) => {
-      (req.session as any).userId = (req.user as any).id;
-      // @todo: Redirect to front end
-      res.redirect('/');
-    }
-  );
+  if (process.env.NODE_ENV === 'test') {
+    await createTestConn(true);
+  } else {
+    await createTypeOrmConn();
+  }
 
   const app = await server.start({
     cors,

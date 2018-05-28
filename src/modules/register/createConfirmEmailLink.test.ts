@@ -2,8 +2,8 @@ import fetch from 'node-fetch';
 import * as Redis from 'ioredis';
 import { Connection } from 'typeorm';
 
-import { User } from '../entity/User';
-import { createTypeOrmConn } from './createTypeormConn';
+import { User } from '../../entity/User';
+import { createTypeOrmConn } from '../../utils/createTypeormConn';
 import { createConfirmEmailLink } from './createConfirmEmailLink';
 
 let userId = '';
