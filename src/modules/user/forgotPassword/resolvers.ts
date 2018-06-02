@@ -1,23 +1,20 @@
 import * as yup from 'yup';
 import * as bcrypt from 'bcryptjs';
 
-import { User } from '../../entity/User';
-import { ResolverMap } from '../../types/graphql-utils';
-import { forgotPasswordPrefix } from '../../constants';
-import { formatYupError } from '../../utils/formatYupError';
-import { registerPasswordValidation } from '../../yupSchema';
+import { User } from '../../../entity/User';
+import { ResolverMap } from '../../../types/graphql-utils';
+import { forgotPasswordPrefix } from '../../../constants';
+import { formatYupError } from '../../../utils/formatYupError';
+import { registerPasswordValidation } from '../../../yupSchema';
 import { expiredKey, userByEmailNotFound } from './errorMessages';
-import { forgotPasswordLockAccount } from '../../utils/forgotPasswordLockAccount';
-import { createForgotPasswordLink } from '../../utils/createForgotPasswordLink';
+import { forgotPasswordLockAccount } from '../../../utils/forgotPasswordLockAccount';
+import { createForgotPasswordLink } from '../../../utils/createForgotPasswordLink';
 
 const schema = yup.object().shape({
   newPassword: registerPasswordValidation,
 });
 
 export const resolvers: ResolverMap = {
-  Query: {
-    dummy2: () => 'bye',
-  },
   Mutation: {
     sendForgotPasswordEmail: async (
       _,

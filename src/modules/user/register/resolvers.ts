@@ -1,10 +1,10 @@
 import * as yup from 'yup';
 
-import { User } from '../../entity/User';
+import { User } from '../../../entity/User';
 // import { sendEmail } from '../../utils/sendEmail';
-import { ResolverMap } from '../../types/graphql-utils';
-import { formatYupError } from '../../utils/formatYupError';
-import { registerPasswordValidation } from '../../yupSchema';
+import { ResolverMap } from '../../../types/graphql-utils';
+import { formatYupError } from '../../../utils/formatYupError';
+import { registerPasswordValidation } from '../../../yupSchema';
 // import { createConfirmEmailLink } from '../../modules/register/createConfirmEmailLink';
 import { invalidEmail, duplicateEmail, emailMinLength } from './errorMessages';
 
@@ -18,9 +18,6 @@ const schema = yup.object().shape({
 });
 
 export const resolvers: ResolverMap = {
-  Query: {
-    bye: () => 'bye',
-  },
   Mutation: {
     register: async (_, args: GQL.IRegisterOnMutationArguments /*{ redis, url }*/) => {
       try {

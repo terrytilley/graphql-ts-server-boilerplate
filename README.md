@@ -1,11 +1,11 @@
 # GraphQL TypeScript Server Boilerplate
 
-- [ ] Register - Send confirmation email
-- [ ] Login
-- [ ] Forgot Password
-- [ ] Logout  
-- [ ] Cookies and Http Header
-- [ ] Authentication middleware
-- [ ] Rate limiting
-- [ ] Locking accounts
-- [ ] Testing (probably Jest)
+* [x] Register (Confirmation email)
+* [x] Login
+* [x] Logout
+* [x] Forgot Password
+* [x] Cookies and Http Header
+* [x] Authentication middleware
+* [x] Rate limiting
+* [x] Locking accounts
+* [x] Testing (Jest)
