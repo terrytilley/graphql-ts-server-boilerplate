@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 
-import { redis } from '../redis';
+import redis from '../redis';
 import { User } from '../entity/User';
 
-export const confirmEmail = async (req: Request, res: Response) => {
+export default async (req: Request, res: Response) => {
   const { id } = req.params;
   const userId = await redis.get(id);
 

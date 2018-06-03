@@ -1,21 +1,21 @@
 import 'dotenv/config';
 import 'reflect-metadata';
+
 import * as session from 'express-session';
 import * as connectRedis from 'connect-redis';
 import * as RateLimit from 'express-rate-limit';
 import * as RateLimitRedisStore from 'rate-limit-redis';
 import { GraphQLServer } from 'graphql-yoga';
 
-import { redis } from './redis';
+import redis from './redis';
+import confirmEmail from './routes/confirmEmail';
 import generateSchema from './utils/generateSchema';
-import { redisSessionPrefix } from './constants';
-import { confirmEmail } from './routes/confirmEmail';
 import createTypeOrmConn from './utils/createTypeormConn';
+import { redisSessionPrefix } from './constants';
 
 const RedisStore = connectRedis(session);
-const SESSION_SECRET = 'd3c3f2fc5b1fb7caaae5c1f9540025982bc7202be927aab11551840d2e6';
 
-export const startServer = async () => {
+export default async () => {
   if (process.env.NODE_ENV === 'test') {
     await redis.flushall();
   }
@@ -43,7 +43,7 @@ export const startServer = async () => {
     session({
       name: 'qid',
       store: new RedisStore({ client: redis as any, prefix: redisSessionPrefix }),
-      secret: SESSION_SECRET,
+      secret: process.env.SESSION_SECRET as string,
       resave: false,
       saveUninitialized: false,
       cookie: {
@@ -54,10 +54,8 @@ export const startServer = async () => {
     })
   );
 
-  const cors = {
-    credentials: true,
-    origin: process.env.NODE_ENV === 'test' ? '*' : (process.env.FRONTEND_HOST as string),
-  };
+  const origin = process.env.NODE_ENV === 'test' ? '*' : process.env.FRONTEND_HOST;
+  const cors = { credentials: true, origin };
 
   server.express.get('/confirm/:id', confirmEmail);
 
@@ -67,11 +65,9 @@ export const startServer = async () => {
     await createTypeOrmConn();
   }
 
-  const app = await server.start({
-    cors,
-    port: process.env.NODE_ENV === 'test' ? 0 : 4000,
-  });
+  const port = process.env.NODE_ENV === 'test' ? 0 : process.env.PORT;
+  const app = await server.start({ cors, port });
 
-  console.log('Server is running on localhost:4000');
+  console.log(`Server is running on localhost:${port}`);
   return app;
 };
