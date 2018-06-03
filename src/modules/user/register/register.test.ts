@@ -3,7 +3,7 @@ import { Connection } from 'typeorm';
 
 import { User } from '../../../entity/User';
 import { TestClient } from '../../../utils/TestClient';
-import { createTestConn } from '../../../testUtils/createTestConn';
+import createTypeormConn from '../../../utils/createTypeormConn';
 import {
   invalidEmail,
   duplicateEmail,
@@ -17,7 +17,7 @@ const password = faker.internet.password();
 const client = new TestClient(process.env.TEST_HOST as string);
 
 beforeAll(async () => {
-  conn = await createTestConn();
+  conn = await createTypeormConn();
 });
 
 afterAll(async () => {

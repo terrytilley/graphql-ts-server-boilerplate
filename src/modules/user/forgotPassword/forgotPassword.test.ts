@@ -7,9 +7,9 @@ import { expiredKey } from './errorMessages';
 import { TestClient } from '../../../utils/TestClient';
 import { passwordMinLength } from '../register/errorMessages';
 import { forgotPasswordLocked } from '../login/errorMessages';
-import { createTestConn } from '../../../testUtils/createTestConn';
 import { createForgotPasswordLink } from '../../../utils/createForgotPasswordLink';
 import { forgotPasswordLockAccount } from '../../../utils/forgotPasswordLockAccount';
+import createTypeormConn from '../../../utils/createTypeormConn';
 
 let conn: Connection;
 const redis = new Redis();
@@ -19,7 +19,7 @@ const newPassword = faker.internet.password();
 
 let userId: string;
 beforeAll(async () => {
-  conn = await createTestConn();
+  conn = await createTypeormConn();
 
   const user = await User.create({
     email,

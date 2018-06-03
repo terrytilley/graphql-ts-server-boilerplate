@@ -10,8 +10,7 @@ import { redis } from './redis';
 import { genSchema } from './utils/genSchema';
 import { redisSessionPrefix } from './constants';
 import { confirmEmail } from './routes/confirmEmail';
-import { createTestConn } from './testUtils/createTestConn';
-import { createTypeOrmConn } from './utils/createTypeormConn';
+import createTypeOrmConn from './utils/createTypeormConn';
 
 const RedisStore = connectRedis(session);
 const SESSION_SECRET = 'd3c3f2fc5b1fb7caaae5c1f9540025982bc7202be927aab11551840d2e6';
@@ -63,7 +62,7 @@ export const startServer = async () => {
   server.express.get('/confirm/:id', confirmEmail);
 
   if (process.env.NODE_ENV === 'test') {
-    await createTestConn(true);
+    await createTypeOrmConn(true);
   } else {
     await createTypeOrmConn();
   }

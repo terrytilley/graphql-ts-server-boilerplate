@@ -4,7 +4,7 @@ import { Connection } from 'typeorm';
 import { User } from '../../../entity/User';
 import { TestClient } from '../../../utils/TestClient';
 import { invalidLogin, confirmEmail } from './errorMessages';
-import { createTypeOrmConn } from '../../../utils/createTypeormConn';
+import createTypeOrmConn from '../../../utils/createTypeormConn';
 
 let conn: Connection;
 const email = faker.internet.email();

@@ -3,8 +3,8 @@ import * as Redis from 'ioredis';
 import { Connection } from 'typeorm';
 
 import { User } from '../../../entity/User';
-import { createTypeOrmConn } from '../../../utils/createTypeormConn';
 import { createConfirmEmailLink } from './createConfirmEmailLink';
+import createTypeOrmConn from '../../../utils/createTypeormConn';
 
 let userId = '';
 const redis = new Redis();
