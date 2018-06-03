@@ -54,13 +54,13 @@ export default async () => {
     })
   );
 
-  server.express.get('/confirm/:id', confirmEmail);
-
   if (process.env.NODE_ENV === 'test') {
     await createTypeOrmConn(true);
   } else {
     await createTypeOrmConn();
   }
+
+  server.express.get('/confirm/:id', confirmEmail);
 
   const origin = process.env.NODE_ENV === 'test' ? '*' : process.env.FRONTEND_HOST;
   const port = process.env.NODE_ENV === 'test' ? 0 : process.env.PORT;
