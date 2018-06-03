@@ -10,7 +10,7 @@ import { GraphQLServer } from 'graphql-yoga';
 import redis from './redis';
 import confirmEmail from './routes/confirmEmail';
 import generateSchema from './utils/generateSchema';
-import createTypeOrmConn from './utils/createTypeormConn';
+import createTypeOrmConn from './utils/createTypeOrmConn';
 import { redisSessionPrefix } from './constants';
 
 const RedisStore = connectRedis(session);

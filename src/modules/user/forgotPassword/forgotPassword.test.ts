@@ -6,7 +6,7 @@ import User from '../../../entity/User';
 import TestClient from '../../../utils/TestClient';
 import createForgotPasswordLink from '../../../utils/createForgotPasswordLink';
 import forgotPasswordLockAccount from '../../../utils/forgotPasswordLockAccount';
-import createTypeormConn from '../../../utils/createTypeormConn';
+import createTypeOrmConn from '../../../utils/createTypeOrmConn';
 import { expiredKey } from './errorMessages';
 import { passwordMinLength } from '../register/errorMessages';
 import { forgotPasswordLocked } from '../login/errorMessages';
@@ -19,7 +19,7 @@ const newPassword = faker.internet.password();
 
 let userId: string;
 beforeAll(async () => {
-  conn = await createTypeormConn();
+  conn = await createTypeOrmConn();
 
   const user = await User.create({
     email,

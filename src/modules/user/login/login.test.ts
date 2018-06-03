@@ -3,7 +3,7 @@ import { Connection } from 'typeorm';
 
 import User from '../../../entity/User';
 import TestClient from '../../../utils/TestClient';
-import createTypeOrmConn from '../../../utils/createTypeormConn';
+import createTypeOrmConn from '../../../utils/createTypeOrmConn';
 import { invalidLogin, confirmEmail } from './errorMessages';
 
 let conn: Connection;
