@@ -7,7 +7,7 @@ import * as RateLimitRedisStore from 'rate-limit-redis';
 import { GraphQLServer } from 'graphql-yoga';
 
 import { redis } from './redis';
-import { genSchema } from './utils/genSchema';
+import generateSchema from './utils/generateSchema';
 import { redisSessionPrefix } from './constants';
 import { confirmEmail } from './routes/confirmEmail';
 import createTypeOrmConn from './utils/createTypeormConn';
@@ -21,7 +21,7 @@ export const startServer = async () => {
   }
 
   const server = new GraphQLServer({
-    schema: genSchema(),
+    schema: generateSchema(),
     context: ({ request }) => ({
       redis,
       url: request.protocol + '://' + request.get('host'),
