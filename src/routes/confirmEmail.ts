@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import User from '../entity/User';
 import redis from '../redis';
 
-export default async (req: Request, res: Response) => {
+const confirmEmail = async (req: Request, res: Response) => {
   const { id } = req.params;
   const userId = await redis.get(id);
 
@@ -15,3 +15,5 @@ export default async (req: Request, res: Response) => {
     res.send('invalid');
   }
 };
+
+export default confirmEmail;
