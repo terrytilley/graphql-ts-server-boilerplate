@@ -2,14 +2,14 @@ import * as faker from 'faker';
 import * as Redis from 'ioredis';
 import { Connection } from 'typeorm';
 
-import { User } from '../../../entity/User';
+import User from '../../../entity/User';
+import TestClient from '../../../utils/TestClient';
+import createForgotPasswordLink from '../../../utils/createForgotPasswordLink';
+import forgotPasswordLockAccount from '../../../utils/forgotPasswordLockAccount';
+import createTypeormConn from '../../../utils/createTypeormConn';
 import { expiredKey } from './errorMessages';
-import { TestClient } from '../../../utils/TestClient';
 import { passwordMinLength } from '../register/errorMessages';
 import { forgotPasswordLocked } from '../login/errorMessages';
-import { createForgotPasswordLink } from '../../../utils/createForgotPasswordLink';
-import { forgotPasswordLockAccount } from '../../../utils/forgotPasswordLockAccount';
-import createTypeormConn from '../../../utils/createTypeormConn';
 
 let conn: Connection;
 const redis = new Redis();

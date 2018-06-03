@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
+import User from '../entity/User';
 import redis from '../redis';
-import { User } from '../entity/User';
 
 export default async (req: Request, res: Response) => {
   const { id } = req.params;

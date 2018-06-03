@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 @Entity('users')
-export class User extends BaseEntity {
+class User extends BaseEntity {
   @PrimaryGeneratedColumn('uuid') id: string;
 
   @Column('varchar', { length: 255 })
@@ -27,3 +27,5 @@ export class User extends BaseEntity {
     this.password = await bcrypt.hash(this.password, 10);
   }
 }
+
+export default User;

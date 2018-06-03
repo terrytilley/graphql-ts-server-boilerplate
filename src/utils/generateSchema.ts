@@ -6,7 +6,7 @@ import { mergeTypes, mergeResolvers } from 'merge-graphql-schemas';
 
 const pathToModules = path.join(__dirname, '../modules');
 
-export default () => {
+const generateSchema = () => {
   const typeDefs = glob
     .sync(`${pathToModules}/**/*.graphql`)
     .map(file => fs.readFileSync(file, { encoding: 'utf8' }));
@@ -20,3 +20,5 @@ export default () => {
     resolvers: mergeResolvers(resolvers),
   });
 };
+
+export default generateSchema;

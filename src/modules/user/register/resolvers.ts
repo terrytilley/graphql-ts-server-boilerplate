@@ -1,11 +1,11 @@
 import * as yup from 'yup';
 
-import { User } from '../../../entity/User';
-// import { sendEmail } from '../../utils/sendEmail';
+import User from '../../../entity/User';
+// import sendEmail from '../../../utils/sendEmail';
+import formatYupError from '../../../utils/formatYupError';
+// import createConfirmEmailLink from './createConfirmEmailLink';
 import { ResolverMap } from '../../../types/graphql-utils';
-import { formatYupError } from '../../../utils/formatYupError';
 import { registerPasswordValidation } from '../../../yupSchema';
-// import { createConfirmEmailLink } from '../../modules/register/createConfirmEmailLink';
 import { invalidEmail, duplicateEmail, emailMinLength } from './errorMessages';
 
 const schema = yup.object().shape({

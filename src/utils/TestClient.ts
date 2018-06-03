@@ -1,6 +1,6 @@
 import * as rp from 'request-promise';
 
-export class TestClient {
+class TestClient {
   url: string;
   options: {
     json: boolean;
@@ -93,3 +93,5 @@ export class TestClient {
     });
   }
 }
+
+export default TestClient;

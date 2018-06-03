@@ -1,6 +1,6 @@
 import { Resolver } from '../../../types/graphql-utils';
 
-export default async (
+const middleware = async (
   resolver: Resolver,
   parent: any,
   args: any,
@@ -9,3 +9,5 @@ export default async (
 ) => {
   return resolver(parent, args, context, info);
 };
+
+export default middleware;

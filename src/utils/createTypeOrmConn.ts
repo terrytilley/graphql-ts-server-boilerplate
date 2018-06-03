@@ -1,6 +1,6 @@
 import { createConnection, getConnectionOptions } from 'typeorm';
 
-export default async (resetDB: boolean = false) => {
+const createTypeOrmConn = async (resetDB: boolean = false) => {
   const connectionOptions = await getConnectionOptions(process.env.NODE_ENV);
   return createConnection({
     ...connectionOptions,
@@ -9,3 +9,5 @@ export default async (resetDB: boolean = false) => {
     dropSchema: resetDB,
   });
 };
+
+export default createTypeOrmConn;

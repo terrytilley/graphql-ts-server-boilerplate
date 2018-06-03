@@ -54,9 +54,6 @@ export default async () => {
     })
   );
 
-  const origin = process.env.NODE_ENV === 'test' ? '*' : process.env.FRONTEND_HOST;
-  const cors = { credentials: true, origin };
-
   server.express.get('/confirm/:id', confirmEmail);
 
   if (process.env.NODE_ENV === 'test') {
@@ -65,9 +62,11 @@ export default async () => {
     await createTypeOrmConn();
   }
 
+  const origin = process.env.NODE_ENV === 'test' ? '*' : process.env.FRONTEND_HOST;
   const port = process.env.NODE_ENV === 'test' ? 0 : process.env.PORT;
+  const cors = { credentials: true, origin };
   const app = await server.start({ cors, port });
 
-  console.log(`Server is running on localhost:${port}`);
+  console.log(`Server is running on http://localhost:${port}`);
   return app;
 };
