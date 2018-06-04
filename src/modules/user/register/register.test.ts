@@ -11,6 +11,8 @@ import {
   passwordMinLength,
 } from './errorMessages';
 
+faker.seed(Date.now() + 5);
+
 let conn: Connection;
 const email = faker.internet.email();
 const password = faker.internet.password();

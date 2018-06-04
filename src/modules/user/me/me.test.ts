@@ -5,6 +5,8 @@ import User from '../../../entity/User';
 import TestClient from '../../../utils/TestClient';
 import createTypeOrmConn from '../../../utils/createTypeOrmConn';
 
+faker.seed(Date.now() + 3);
+
 let userId: string;
 let conn: Connection;
 const email = faker.internet.email();

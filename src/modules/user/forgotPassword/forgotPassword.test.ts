@@ -11,6 +11,8 @@ import { expiredKey } from './errorMessages';
 import { passwordMinLength } from '../register/errorMessages';
 import { forgotPasswordLocked } from '../login/errorMessages';
 
+faker.seed(Date.now() + 0);
+
 let conn: Connection;
 const redis = new Redis();
 const email = faker.internet.email();

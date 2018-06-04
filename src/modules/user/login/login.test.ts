@@ -6,6 +6,8 @@ import TestClient from '../../../utils/TestClient';
 import createTypeOrmConn from '../../../utils/createTypeOrmConn';
 import { invalidLogin, confirmEmail } from './errorMessages';
 
+faker.seed(Date.now() + 1);
+
 let conn: Connection;
 const email = faker.internet.email();
 const password = faker.internet.password();
