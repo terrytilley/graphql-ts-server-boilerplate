@@ -13,7 +13,7 @@ import generateSchema from './utils/generateSchema';
 import createTypeOrmConn from './utils/createTypeOrmConn';
 import { redisSessionPrefix } from './constants';
 
-const RedisStore = connectRedis(session);
+const RedisStore = connectRedis(session as any);
 
 export default async () => {
   if (process.env.NODE_ENV === 'test') {
@@ -51,7 +51,7 @@ export default async () => {
         secure: process.env.NODE_ENV === 'production',
         maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
       },
-    })
+    } as any)
   );
 
   if (process.env.NODE_ENV === 'test') {
